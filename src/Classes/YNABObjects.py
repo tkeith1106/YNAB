@@ -57,6 +57,7 @@ class Transaction(object):
     account_name: str
     payee_name: str
     category_name: str
+    flag_name: str = None
     subtransactions: Optional[List[dict]] = None
     import_payee_name_original: Optional[str] = None
     import_payee_name: Optional[str] = None
@@ -122,6 +123,7 @@ class Category(object):
     goal_under_funded: int
     goal_overall_funded: int
     goal_overall_left: int
+    goal_needs_whole_amount: bool
     deleted: bool
     server_knowledge: Optional[int] = None
     transactions: Optional[List[Transaction]] = None
