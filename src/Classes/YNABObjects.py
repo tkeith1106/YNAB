@@ -57,7 +57,7 @@ class Transaction(object):
     account_name: str
     payee_name: str
     category_name: str
-    flag_name: str = None
+    flag_name: Optional[List[str]] = None
     subtransactions: Optional[List[dict]] = None
     import_payee_name_original: Optional[str] = None
     import_payee_name: Optional[str] = None
