@@ -15,7 +15,6 @@ __maintainer__ = __author__
 __email__ = "itisme@tykeith.dev"
 __status__ = "DEV"
 __deprecated__ = False
-__ROOT__ = r"/Users/ty/Documents/Python/YNAB.src"
 
 # imports
 from typing import List, Optional, Union

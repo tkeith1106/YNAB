@@ -10,15 +10,25 @@ __maintainer__ = __author__
 __email__ = "itisme@tykeith.dev"
 __status__ = "PROD"
 __deprecated__ = False
-__ROOT__ = r"/Users/ty/Documents/Python/YNAB/src"
 
 # imports
 import datetime
 import sys
-import os
+from pathlib import Path
+from Logging import logger
 
-sys.path.append(__ROOT__)
-os. chdir(__ROOT__)
+# iterate to find the root directory for python to make 3rd party imports from
+current_directory = Path(__file__).resolve()
+ROOT_DIR = None
+while ROOT_DIR is None:
+    # check each parent directory for the __root__.py file to get the setup script
+    if "__root__.py" in [x.name for x in current_directory.glob("**/*") if x.is_file()]:
+        ROOT_DIR = current_directory
+    current_directory = current_directory.parent
+
+# properly setup PYTHONPATH for modules to properly init
+sys.path.insert(0, ROOT_DIR.as_posix())
+sys.path.insert(0, ROOT_DIR.parent.as_posix())
 
 # custom party imports
 from src.Classes.rest_calls import RESTRequests
@@ -31,9 +41,18 @@ class ImportAcrossBudgets:
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        pass
+        if "logger" in globals():
+            self.logger.__exit__(exc_type, exc_val, exc_tb)
 
     def __init__(self, to_budget_name: str, from_budget_name: str, to_budget_account: str, from_budget_category: str, since_date: str):
+        # setup logger
+        self.logger = logger.Logger(
+            file_path=__file__,
+            debug=False,
+            args=args,
+            owner_email='itisme@tykeith.dev'
+        )
+
         # init variables
         self.__requests = RESTRequests()
         self.to_budget_name = to_budget_name
@@ -83,10 +102,10 @@ class ImportAcrossBudgets:
 
             # print out the transactions that were added
             for item in response['data']['transactions']:
-                print(f"Added {item['payee_name']} for Amount ${float(item['amount']/1000)} into {self.to_budget.name}-{item['account_name']}")
+                self.logger.log(f"Added {item['payee_name']} for Amount ${float(item['amount']/1000)} into {self.to_budget.name}-{item['account_name']}")
         # notify user nothing was added
         else:
-            print(f"No transactions to be added to {self.to_budget.name} budget")
+            self.logger.log(f"No transactions to be added to {self.to_budget.name} budget")
 
     def get_transactions_to_add(self) -> List[dict]:
         """
