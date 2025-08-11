@@ -19,6 +19,7 @@ __deprecated__ = False
 # imports
 from typing import List, Optional, Union
 from dataclasses import dataclass
+import datetime
 
 
 @dataclass
@@ -124,6 +125,7 @@ class Category(object):
     goal_overall_left: int
     goal_needs_whole_amount: bool
     deleted: bool
+    goal_snoozed_at: datetime.datetime
     server_knowledge: Optional[int] = None
     transactions: Optional[List[Transaction]] = None
 
