@@ -104,25 +104,26 @@ class Category(object):
     category_group_name: str
     name: str
     hidden: bool
-    deleted: bool
     original_category_group_id: str
     note: str
     budgeted: int
     activity: int
     balance: int
     goal_type: str
+    goal_needs_whole_amount: str
     goal_day: int
     goal_cadence: int
     goal_cadence_frequency: int
     goal_creation_month: str
     goal_target: int
     goal_target_month: str
+    goal_target_date: str
     goal_percentage_complete: int
     goal_months_to_budget: int
     goal_under_funded: int
     goal_overall_funded: int
     goal_overall_left: int
-    goal_needs_whole_amount: bool
+    goal_snoozed_at: str
     deleted: bool
     server_knowledge: Optional[int] = None
     transactions: Optional[List[Transaction]] = None

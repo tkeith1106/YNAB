@@ -14,6 +14,7 @@ __deprecated__ = False
 # imports
 import datetime
 import sys
+from dataclasses import fields as dcFields
 from pathlib import Path
 from Logging import logger
 
@@ -177,7 +178,7 @@ class ImportAcrossBudgets:
             if not category_group['hidden'] or category_group['deleted']:
                 for category in category_group['categories']:
                     if category['name'] == self.from_budget_category:
-                        c_obj = Category(**category)
+                        c_obj = Category(**{k: v for k, v in category.items() if k in {f.name for f in dcFields(Category)}})
                         c_obj.server_knowledge = categories['data']['server_knowledge']
                         c_obj.transactions = self.construct_transactions(budget_id=budget_id, category_id=c_obj.id)
                         return c_obj
@@ -260,9 +261,9 @@ class ImportAcrossBudgets:
 if __name__ == "__main__":
     args = dict(
         to_budget_name="Tyhler",
-        to_budget_account="Shared MasterCard",
+        to_budget_account="Shared Credit Cards",
         from_budget_name="131 Deer Run Close",
-        from_budget_category="Ty Owes to Shared MC",
+        from_budget_category="Ty Owes to Shared CCs",
         since_date=f"{datetime.datetime.now().strftime('%Y-%m')}-01"
     )
     with ImportAcrossBudgets(**args) as script_tool:
