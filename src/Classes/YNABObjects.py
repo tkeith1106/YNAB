@@ -42,6 +42,8 @@ class Transaction(object):
     id: str
     date: str
     amount: int
+    amount_formatted: str
+    amount_currency: float
     memo: str
     cleared: str
     approved: bool
@@ -80,8 +82,14 @@ class Account(object):
     closed: bool
     note: str
     balance: int
+    balance_formatted: str
+    balance_currency: float
     cleared_balance: int
+    cleared_balance_formatted: str
+    cleared_balance_currency: float
     uncleared_balance: int
+    uncleared_balance_formatted: str
+    uncleared_balance_currency: float
     transfer_payee_id: str
     direct_import_linked: bool
     direct_import_in_error: bool
